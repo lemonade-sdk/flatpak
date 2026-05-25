@@ -92,3 +92,20 @@ jobs:
           gh release create "$TAG_NAME" Lemonade.flatpak \
             --title "Release $TAG_NAME" \
             --notes-file release_notes.md
+
+  publish:
+    name: "Publish to Flatpak Repo"
+    needs: create-release
+    permissions:
+      contents: read
+      packages: write
+      pages: write
+      id-token: write
+    uses: aetherpak/actions/.github/workflows/publish.yml@v3
+    with:
+      manifest-path: ai.lemonade_server.Lemonade.yaml
+      branch: stable
+      run-linter: true
+      index-template: .github/workflows/templates/lemonade.html
+    secrets:
+      gpg-private-key: ${{ secrets.AETHERPAK_GPG_KEY }}

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lemonade Apps — Flatpak repository</title>
+  <meta name="description" content="Signed Flatpak repository for Lemonade desktop apps. One-click install per app, or add the whole repository.">
+  <meta property="og:title" content="Lemonade Apps — Flatpak repository">
+  <meta property="og:description" content="Signed Flatpak repository for Lemonade desktop apps.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍋</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #fcd846;
+      --accent-ink: #1a1604;
+      --ink: #2d2f2f;
+      --muted: #6b6f70;
+      --bg-top: #ffffff;
+      --bg-bottom: #fff9c4;
+      --card: rgba(255, 255, 255, 0.55);
+      --card-border: rgba(45, 47, 47, 0.08);
+      --line: rgba(45, 47, 47, 0.1);
+      --code-bg: #f3f3f3;
+      --code-ink: #474747;
+      --ok: #1f9d6b;
+      --shadow: 0 12px 48px rgba(45, 47, 47, 0.08);
+      --maxw: 920px;
+      --font: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+      --display: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+      --mono: Consolas, Monaco, "Courier New", ui-monospace, monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --accent: #fcd846;
+        --accent-ink: #1a1604;
+        --ink: #f0f2f2;
+        --muted: #9ba1a2;
+        --bg-top: #0a0b07;
+        --bg-bottom: #24220b;
+        --card: rgba(22, 23, 19, 0.65);
+        --card-border: rgba(255, 255, 255, 0.08);
+        --line: rgba(255, 255, 255, 0.1);
+        --code-bg: #1c1d17;
+        --code-ink: #d4d8d8;
+        --shadow: 0 16px 56px rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: var(--font);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      background: linear-gradient(var(--bg-top) 0, var(--bg-top) 22%, var(--bg-bottom) 100%) no-repeat;
+      background-attachment: fixed;
+      padding: 0 20px 64px;
+      transition: color 0.3s ease, background 0.3s ease;
+    }
+    a { color: var(--ink); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--maxw); margin: 0 auto; }
+
+    header.nav { display: flex; align-items: center; gap: 16px; height: 72px; }
+    .brand { display: flex; align-items: center; gap: 9px; font-family: var(--display); font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; }
+    .brand .mark { font-size: 1.35rem; line-height: 1; }
+    .nav .spacer { margin-left: auto; }
+    .nav .ext { font-size: 0.9rem; font-weight: 600; color: var(--muted); }
+
+    .hero { padding: 40px 0 8px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 0.8rem; font-weight: 700; color: var(--muted);
+      background: var(--card); border: 1px solid var(--card-border);
+      padding: 6px 13px; border-radius: 9999px; margin-bottom: 22px;
+      box-shadow: var(--shadow);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .eyebrow .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite ease-in-out;
+    }
+    .hero h1 {
+      font-family: var(--display); font-weight: 800;
+      font-size: clamp(34px, 6vw, 54px); line-height: 1.04; letter-spacing: -0.035em;
+      margin-bottom: 16px;
+    }
+    .hl { color: var(--accent); }
+    .hero .lede { font-size: 1.18rem; color: var(--muted); max-width: 620px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 0.82rem; font-weight: 600; color: var(--muted);
+      background: var(--card); border: 1px solid var(--card-border);
+      padding: 7px 13px; border-radius: 9999px;
+    }
+    .badge code { font-family: var(--mono); font-size: 0.8rem; color: var(--ink); }
+    .badge.signed { color: var(--ok); border-color: rgba(31, 157, 107, 0.3); }
+    .badge .check { width: 14px; height: 14px; }
+
+    section { padding: 30px 0 6px; }
+    .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+    .sec-head h2 { font-family: var(--display); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
+    .sec-head .hint { color: var(--muted); font-size: 0.9rem; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--card-border);
+      border-radius: 22px; padding: 24px; box-shadow: var(--shadow);
+      backdrop-filter: blur(8px); min-width: 0;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 56px rgba(45, 47, 47, 0.12);
+    }
+    @media (prefers-color-scheme: dark) {
+      .card:hover {
+        box-shadow: 0 16px 56px rgba(0, 0, 0, 0.55);
+      }
+    }
+    .card + .card { margin-top: 18px; }
+
+    .step { display: grid; gap: 9px; }
+    .step + .step { margin-top: 18px; }
+    .step .label { display: flex; align-items: center; gap: 9px; font-size: 0.92rem; font-weight: 700; }
+    .step .label .n {
+      width: 21px; height: 21px; border-radius: 50%; flex: none;
+      background: var(--accent); color: var(--accent-ink);
+      font-size: 0.74rem; font-weight: 800; display: grid; place-items: center;
+    }
+    .note { font-size: 0.86rem; color: var(--muted); }
+    .note code { font-family: var(--mono); background: var(--code-bg); padding: 2px 6px; border-radius: 6px; color: var(--code-ink); }
+
+    .code {
+      position: relative; background: var(--code-bg);
+      border-radius: 16px 16px 4px 16px; padding: 15px 52px 15px 16px;
+      overflow-x: auto; font-family: var(--mono); font-size: 0.84rem; line-height: 1.6; color: var(--code-ink);
+    }
+    .code code { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .copy {
+      position: absolute; top: 9px; right: 9px;
+      font-family: var(--font); font-size: 0.74rem; font-weight: 700; cursor: pointer;
+      color: var(--muted); background: var(--bg-top); border: 1px solid var(--line);
+      border-radius: 8px; padding: 5px 9px; transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+    }
+    .copy:hover { color: var(--ink); border-color: var(--muted); }
+    .copy.ok {
+      color: var(--ok);
+      border-color: rgba(31, 157, 107, 0.4);
+      background: rgba(31, 157, 107, 0.05);
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-weight: 700; font-size: 0.88rem; cursor: pointer;
+      padding: 10px 18px; border-radius: 9999px; border: 1px solid transparent;
+      transition: filter 0.15s, border-color 0.15s, color 0.15s, transform 0.1s ease;
+    }
+    .btn:hover { text-decoration: none; }
+    .btn:active { transform: scale(0.97); }
+    .btn.primary { background: var(--accent); color: var(--accent-ink); }
+    .btn.primary:hover { filter: brightness(0.96); }
+    .btn.ghost { background: var(--card); border-color: var(--card-border); color: var(--ink); }
+    .btn.ghost:hover { border-color: var(--muted); }
+    
+    .btn:focus-visible, .copy:focus-visible, a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .setup-actions { margin-top: 18px; }
+
+    .grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+    .app-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+    .app-icon {
+      width: 54px; height: 54px; border-radius: 14px; flex: none; overflow: hidden;
+      display: grid; place-items: center; font-size: 28px; line-height: 1;
+      background: var(--bg-top) center / contain no-repeat; border: 1px solid var(--card-border);
+    }
+    .app-name { font-family: var(--display); font-size: 1.2rem; font-weight: 700; letter-spacing: -0.01em; }
+    .app-id { font-family: var(--mono); font-size: 0.76rem; color: var(--muted); word-break: break-all; }
+    .app-head > div { min-width: 0; }
+    .app-summary { color: var(--muted); font-size: 0.92rem; margin-bottom: 4px; }
+
+    .releases { margin-top: 14px; border-left: 2px solid var(--line); padding-left: 16px; display: grid; gap: 16px; min-width: 0; }
+    .release { position: relative; min-width: 0; }
+    .release::before {
+      content: ''; position: absolute; left: -22px; top: 5px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 0 3px var(--bg-bottom);
+    }
+    .release.old::before { background: var(--muted); }
+    .release-head { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
+    .pill { font-family: var(--mono); font-size: 0.72rem; font-weight: 600; color: var(--muted); background: rgba(45, 47, 47, 0.05); border: 1px solid var(--line); padding: 3px 9px; border-radius: 9999px; }
+    .pill.primary { color: var(--accent-ink); background: var(--accent); border-color: transparent; }
+    .release-date { margin-left: auto; font-size: 0.82rem; color: var(--muted); }
+    .release-meta { font-family: var(--mono); font-size: 0.76rem; color: var(--muted); margin: 8px 0; }
+    .release .actions { margin: 10px 0; }
+
+    .empty { text-align: center; padding: 48px 24px; color: var(--muted); }
+    .empty .mark { font-size: 40px; display: block; margin-bottom: 12px; }
+    .empty h3 { font-family: var(--display); font-size: 1.25rem; color: var(--ink); margin-bottom: 6px; }
+
+    footer { border-top: 1px solid var(--line); margin-top: 56px; padding-top: 26px; }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: center; color: var(--muted); font-size: 0.85rem; }
+    footer a { color: var(--muted); font-weight: 600; }
+    footer .links { display: flex; gap: 18px; }
+
+    @media (max-width: 600px) {
+      .code {
+        font-size: 0.78rem;
+        padding: 12px 42px 12px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="nav">
+      <span class="brand"><span class="mark" aria-hidden="true">🍋</span> Lemonade</span>
+      <span class="spacer"></span>
+      <a class="ext" href="https://lemonade-server.ai/" target="_blank" rel="noopener">lemonade-server.ai ↗</a>
+    </header>
+  </div>
+
+  <main class="wrap">
+    <section class="hero">
+      <span class="eyebrow"><span class="dot"></span> Flatpak repository</span>
+      <h1>Install <span class="hl">Lemonade</span> apps on Linux.</h1>
+      <p class="lede">A signed Flatpak repository for the Lemonade desktop apps. One-click install per app, or add the whole repository — every build is GPG-signed and verified on your machine.</p>
+      <div class="badges">
+        {{if .Signing.Enabled}}<span class="badge signed"><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> GPG signed &amp; verified</span>{{end}}
+        <span class="badge">Remote: <code>{{.RemoteName}}</code></span>
+        {{if .Apps}}<span class="badge">{{len .Apps}} app{{if gt (len .Apps) 1}}s{{end}}</span>{{end}}
+      </div>
+    </section>
+
+    <section id="setup">
+      <div class="sec-head">
+        <h2>Add this repository</h2>
+        <span class="hint">{{if .Signing.Enabled}}verified · one command{{else}}one command{{end}}</span>
+      </div>
+      <div class="card">
+        {{if .Signing.Enabled}}
+        <div class="step">
+          <span class="label"><span class="n">1</span> Add the signed remote (flatpak ≥ 1.17)</span>
+          <div class="code"><button class="copy">Copy</button><code>flatpak remote-add --user \
+  --signature-lookaside={{.PagesURL}}/{{.Signing.Lookaside}} \
+  {{.RemoteName}} \
+  {{.PagesURL}}/{{.RemoteName}}.flatpakrepo</code></div>
+          <p class="note">The <code>.flatpakrepo</code> embeds the GPG key and turns on <code>gpg-verify</code>; the lookaside flag completes signature verification in the same command.</p>
+        </div>
+        <div class="step">
+          <span class="label"><span class="n">2</span> Install an app</span>
+          <p class="note">Pick any app below, or install by ID once the remote is added.</p>
+        </div>
+        <div class="actions setup-actions">
+          <a class="btn primary" href="{{.RemoteName}}.flatpakrepo" download>Download .flatpakrepo</a>
+          <a class="btn ghost" href="index/static" target="_blank" rel="noopener">View OCI index</a>
+          <a class="btn ghost" href="{{.Signing.PublicKey}}" download>Public key</a>
+        </div>
+        <p class="note" style="margin-top:14px;">Adding the repository through a software center can't carry the signature lookaside. After a GUI add, enable verification once:</p>
+        <div class="code"><button class="copy">Copy</button><code>flatpak remote-modify --user \
+  --signature-lookaside={{.PagesURL}}/{{.Signing.Lookaside}} \
+  {{.RemoteName}}</code></div>
+        {{else}}
+        <div class="step">
+          <span class="label"><span class="n">1</span> Add the remote</span>
+          <div class="code"><button class="copy">Copy</button><code>flatpak remote-add --if-not-exists --user --no-gpg-verify \
+  {{.RemoteName}} \
+  oci+{{.PagesURL}}</code></div>
+          <p class="note">This repository is unsigned, so the remote is added without GPG verification.</p>
+        </div>
+        <div class="actions setup-actions">
+          <a class="btn primary" href="{{.RemoteName}}.flatpakrepo" download>Download .flatpakrepo</a>
+          <a class="btn ghost" href="index/static" target="_blank" rel="noopener">View OCI index</a>
+        </div>
+        {{end}}
+      </div>
+    </section>
+
+    <section id="apps">
+      <div class="sec-head">
+        <h2>Apps</h2>
+        {{if .Apps}}<span class="hint">{{len .Apps}} app{{if gt (len .Apps) 1}}s{{end}} · install per release</span>{{end}}
+      </div>
+      {{if .Apps}}
+      <div class="grid">
+        {{range .Apps}}
+        <article class="card">
+          <div class="app-head">
+            <span class="app-icon" role="img" aria-label="{{.Name}} icon">🍋{{if .Icon}}<i class="ic" hidden>{{.Icon}}</i>{{end}}</span>
+            <div>
+              <div class="app-name">{{.Name}}</div>
+              <div class="app-id">{{.ID}}</div>
+            </div>
+          </div>
+          {{if .Summary}}<p class="app-summary">{{.Summary}}</p>{{end}}
+          <div class="releases">
+            {{range $i, $b := .Branches}}
+            <div class="release {{if $i}}old{{end}}">
+              <div class="release-head">
+                <span class="pill primary">{{$b.Branch}}</span>
+                {{range $b.Arches}}<span class="pill">{{.}}</span>{{end}}
+                <span class="release-date">{{if $i}}{{else}}latest{{if $b.FormattedDate}} · {{end}}{{end}}{{if $b.FormattedDate}}released {{$b.FormattedDate}}{{end}}</span>
+              </div>
+              <div class="release-meta">{{formatSize $b.InstalledSize}} installed · {{formatSize $b.DownloadSize}} download{{if $b.Commit}} · {{printf "%.10s" $b.Commit}}{{end}}</div>
+              <div class="actions">
+                <a class="btn primary" href="{{$b.RefFile}}" download>Install ({{$b.Branch}})</a>
+              </div>
+              <div class="code"><button class="copy">Copy</button><code>{{$b.InstallCmd}}</code></div>
+            </div>
+            {{end}}
+          </div>
+        </article>
+        {{end}}
+      </div>
+      {{else}}
+      <div class="card empty">
+        <span class="mark" aria-hidden="true">🍋</span>
+        <h3>No apps published yet</h3>
+        <p>Once a build is published to this repository, its apps appear here automatically.</p>
+      </div>
+      {{end}}
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>{{.FooterText}}</span>
+      <span class="links">
+        <a href="https://github.com/lemonade-sdk/lemonade" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://lemonade-server.ai/#getting-started" target="_blank" rel="noopener">Getting started</a>
+        <a href="https://lemonade-server.ai/" target="_blank" rel="noopener">Docs</a>
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    // Icons are data: URIs carried as hidden text because html/template sanitizes
+    // them out of src/url() contexts. Hydrate as a background once the image loads.
+    document.querySelectorAll('.app-icon .ic').forEach(function (ic) {
+      var src = ic.textContent.trim();
+      var el = ic.parentElement;
+      if (!src) return;
+      var probe = new Image();
+      probe.onload = function () {
+        el.textContent = '';
+        el.style.backgroundImage = 'url("' + src + '")';
+      };
+      probe.src = src;
+    });
+
+    document.querySelectorAll('.copy').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var code = btn.parentElement.querySelector('code');
+        if (!code || !navigator.clipboard) return;
+        navigator.clipboard.writeText(code.textContent).then(function () {
+          var prev = btn.innerHTML;
+          btn.innerHTML = '✓ Copied';
+          btn.classList.add('ok');
+          setTimeout(function () {
+            btn.innerHTML = prev;
+            btn.classList.remove('ok');
+          }, 1400);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
