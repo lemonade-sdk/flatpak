@@ -1,4 +1,5 @@
 index_template: .github/workflows/templates/lemonade.html
+remote_name: lemonade
 
 apps:
   - id: ai.lemonade_server.Lemonade
