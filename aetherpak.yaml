@@ -1,0 +1,10 @@
+index_template: .github/workflows/templates/lemonade.html
+
+apps:
+  - id: ai.lemonade_server.Lemonade
+    branch: stable
+    arches:
+      - x86_64
+    manifest: ai.lemonade_server.Lemonade/ai.lemonade_server.Lemonade.yaml
+    builder_args:
+      - --install-deps-from=flathub

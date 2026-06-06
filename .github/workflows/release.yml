@@ -71,6 +71,7 @@ jobs:
       id-token: write
     uses: ./.github/workflows/build-flatpak.yml
     with:
+      branch: stable
       dry-run: false
     secrets:
       gpg-private-key: ${{ secrets.AETHERPAK_GPG_KEY }}

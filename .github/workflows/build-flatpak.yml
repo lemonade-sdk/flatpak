@@ -8,6 +8,11 @@ on:
         required: false
         type: boolean
         default: false
+      branch:
+        description: "Flatpak branch to use for build."
+        required: false
+        type: string
+        default: "beta"
     secrets:
       gpg-private-key:
         description: "Optional GPG private key for signing flatpak repository metadata."
@@ -22,11 +27,8 @@ jobs:
     name: "Build and Deploy"
     uses: aetherpak/actions/.github/workflows/publish.yml@v3
     with:
-      manifest-path: ai.lemonade_server.Lemonade/ai.lemonade_server.Lemonade.yaml
-      branch: stable
+      branch: ${{ inputs.branch }}
       run-linter: true
-      index-template: .github/workflows/templates/lemonade.html
-      arches: x86_64
       upload-bundle: true
       dry-run: ${{ inputs.dry-run }}
     secrets:
