@@ -1,7 +1,7 @@
 # Flatpak builder directories
-.flatpak-builder/
-build-dir/
-repo/
+**/.flatpak-builder/
+**/build-dir/
+**/repo/
 
 # Local developer overrides
 .gemini/
