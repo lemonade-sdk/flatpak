@@ -1,0 +1,49 @@
+name: Bump Upstream Lemonade
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Run daily at 2:00 AM UTC
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Optional upstream tag to bump to (e.g., v10.7.0). If omitted, bumps to the latest commit on main.'
+        required: false
+        type: string
+
+jobs:
+  bump:
+    name: "Bump Upstream"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+        with:
+          submodules: true
+
+      - name: Configure Git User
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Run Bump and Source Generation
+        id: bump
+        run: |
+          make -C ai.lemonade_server.Lemonade bump LEMONADE_TAG="${{ github.event.inputs.tag }}"
+
+      - name: Create or Update Pull Request
+        if: steps.bump.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: automation/bump-lemonade
+          commit-message: "chore(deps): bump upstream lemonade to ${{ steps.bump.outputs.ref }}"
+          title: "chore(deps): bump upstream lemonade to ${{ steps.bump.outputs.ref }}"
+          body: |
+            Bumps [lemonade](https://github.com/lemonade-sdk/lemonade) from `${{ steps.bump.outputs.old_commit }}` to `${{ steps.bump.outputs.new_commit }}`.
+
+            [Compare changes](${{ steps.bump.outputs.compare_url }})
+          delete-branch: true

@@ -48,7 +48,7 @@ endif
 
 .PHONY: build install uninstall test lint clean \
         run run/lemond run/tray run/desktop status help \
-        sources sources/node sources/cargo sources/clean
+        sources sources/node sources/cargo sources/clean bump
 
 ##@ Build & Quality
 
@@ -121,6 +121,10 @@ sources/cargo: ## Regenerate generated-cargo-sources.json
 	  uv run $(FBT_RAW)/cargo/flatpak-cargo-generator.py /tmp/Cargo.lock -o generated-cargo-sources.json'
 
 sources: sources/node sources/cargo ## Regenerate both offline source manifests
+
+bump: ## Bump upstream lemonade version/commit and regenerate offline sources
+	@python3 .contrib/bump.py "$(LEMONADE_TAG)"
+	$(MAKE) sources
 
 sources/clean: ## Remove the uv download-cache volume
 	-$(CONTAINER_ENGINE) volume rm $(UV_CACHE_VOLUME)
