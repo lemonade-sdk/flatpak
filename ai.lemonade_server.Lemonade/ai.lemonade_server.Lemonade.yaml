@@ -62,7 +62,7 @@ modules:
       - &lemonade-source
         type: git
         url: https://github.com/lemonade-sdk/lemonade.git
-        commit: 1c877b481584a96167da69105368ad670135a5ba  # main
+        commit: 281ef117a494cb834a203c59eafea94ec0d196a9  # main
         disable-lfs: true
       - type: patch
         path: 0001-fix-app-store-settings-under-user-config-dir.patch
