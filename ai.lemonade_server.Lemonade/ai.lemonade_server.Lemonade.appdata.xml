@@ -47,6 +47,11 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="10.7.0" date="2026-06-10">
+      <description>
+        <p>Introduces a cross-framework benchmarking command, expands CUDA/Vulkan compatibility across Windows and Linux, and adds a native Prometheus endpoint for real-time monitoring.</p>
+      </description>
+    </release>
     <release version="10.6.0" date="2026-05-22">
       <description>
         <p>Adds support for Lemonade Omni multimodal models with custom omni model support in the GUI and CLI, improved custom-model downloads, and an updated llama.cpp backend.</p>

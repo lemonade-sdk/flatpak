@@ -8,7 +8,7 @@ app-id (`ai.lemonade_server.Lemonade`) for the owned name
 (`ai.lemonade_server.Lemonade.SingleInstance`) to be a permitted sub-name and
 for single-instance / deep-link forwarding to actually work inside the sandbox.
 
-The pinned release (v10.5.1) still uses `com.lemonade.app`. Upstream PR #1978
+The pinned release (v10.7.0) still uses `com.lemonade.app`. Upstream PR #1978
 moves the desktop app identifier to `ai.lemonade_server.Lemonade`, matching this;
 once a lemonade release includes it, this patch can be dropped.
 ---
