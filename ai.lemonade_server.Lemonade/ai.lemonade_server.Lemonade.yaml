@@ -50,7 +50,7 @@ add-extensions:
     no-autodownload: true
     autodelete: true
   ai.lemonade_server.Lemonade.backends.fastflowlm:
-    version: stable;beta
+    versions: stable;beta
     directory: extensions/backends/fastflowlm
     bundle: false
     no-autodownload: true
