@@ -21,6 +21,11 @@ for d in /app/extensions/backends/*/; do
   [ -e "$d/lib/xrt" ] && export XILINX_XRT="$d"
 done
 
+# If the first argument is a command in the PATH, execute it directly
+if [ $# -gt 0 ] && type -P "$1" >/dev/null 2>&1; then
+  exec "$@"
+fi
+
 # second launch / deep link: forward to the running app, then exit
 LOCK="$XDG_RUNTIME_DIR/app/$FLATPAK_ID/supervisor.lock"
 mkdir -p "$(dirname "$LOCK")"

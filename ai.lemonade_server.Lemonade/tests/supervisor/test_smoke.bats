@@ -13,6 +13,7 @@ setup() {
     export XDG_RUNTIME_DIR="$TMPROOT/run"
     export FLATPAK_ID="ai.lemonade_server.Lemonade"
     export LEMONADE_DATA_DIR="$TMPROOT/data"
+    export PATH="/app/bin:$PATH"
     mkdir -p "$TMPROOT/run" "$TMPROOT/data" /app/bin
     unset LEMONADE_FLATPAK_FORCE_BUNDLED LEMONADE_HOST LEMONADE_PORT
     SUPERVISOR="$BATS_TEST_DIRNAME/../../lemonade-supervisor.sh"
@@ -122,4 +123,22 @@ teardown() {
     kill -TERM "$(cat "$TMPROOT/app.pid")"
     wait_file "$TMPROOT/lemond.shutdown"
     wait "$SUP" 2>/dev/null || true
+}
+
+@test "executes a command directly if it is in the PATH" {
+    cat > /app/bin/some-command <<EOF
+#!/usr/bin/env bash
+echo "\$@" > "$TMPROOT/some-command.argv"
+EOF
+    chmod +x /app/bin/some-command
+
+    run "$SUPERVISOR" some-command arg1 arg2
+    [ "$status" -eq 0 ]
+    wait_file "$TMPROOT/some-command.argv"
+    [ "$(cat "$TMPROOT/some-command.argv")" = "arg1 arg2" ]
+
+    # Verify that lemond/tray/app were NOT started
+    [ ! -f "$TMPROOT/tray.pid" ]
+    [ ! -f "$TMPROOT/app.pid" ]
+    [ ! -f "$TMPROOT/lemond.argv" ]
 }
