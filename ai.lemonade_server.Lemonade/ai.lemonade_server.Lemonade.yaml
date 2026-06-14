@@ -12,7 +12,9 @@ finish-args:
   - --share=ipc
   - --share=network
   - --socket=wayland
-  - --socket=fallback-x11
+  # we use x11 instead of fallback-x11; tauri/arboard requires Wayland data-control protocols
+  # mutter does not support these protocols yet
+  - --socket=x11
   - --socket=pulseaudio
   # --device=dri can't expose /dev/accel/accel0, /dev/kfd (Flatpak < 1.8)
   - --device=all
