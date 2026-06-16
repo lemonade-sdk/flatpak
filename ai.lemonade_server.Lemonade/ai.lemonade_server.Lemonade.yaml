@@ -74,10 +74,8 @@ modules:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_PREFIX_PATH=/app
       - -DREQUIRE_LINUX_TRAY=ON
-      - -DBUILD_ELECTRON_APP=OFF
       - -DBUILD_TAURI_APP=OFF
       - -DUSE_SYSTEM_NODEJS_MODULES=OFF
-      - -DFETCHCONTENT_FULLY_DISCONNECTED=ON
     post-install:
       - install -Dm755 lemond      /app/bin/lemond
       - install -Dm755 lemonade    /app/bin/lemonade
