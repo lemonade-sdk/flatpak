@@ -47,6 +47,11 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="10.8.0" date="2026-06-17">
+      <description>
+        <p>Adds cloud offload, Moonshine speech-to-text, and MCP integration, expands CUDA/ROCm hardware support, and introduces model pinning to prevent auto-eviction.</p>
+      </description>
+    </release>
     <release version="10.7.0" date="2026-06-10">
       <description>
         <p>Introduces a cross-framework benchmarking command, expands CUDA/Vulkan compatibility across Windows and Linux, and adds a native Prometheus endpoint for real-time monitoring.</p>
