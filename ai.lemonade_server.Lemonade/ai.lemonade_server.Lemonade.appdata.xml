@@ -47,6 +47,11 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="10.9.0" date="2026-07-01">
+      <description>
+        <p>Adds Linux ARM64 packages, custom system prompts for omni models, OTLP telemetry subsystem, and vLLM Claude Code compatibility.</p>
+      </description>
+    </release>
     <release version="10.8.1" date="2026-06-25">
       <description>
         <p>Adds support for draft checkpoints (Gemma-4 MTP models), restores Radeon GPU support, and implements more resilient, crash-safe backend installations.</p>
