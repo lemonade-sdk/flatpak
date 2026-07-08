@@ -47,6 +47,11 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="10.10.0" date="2026-07-08">
+      <description>
+        <p>Adds audio generation via ThinkSound/ACE-Step backends, local model file reporting endpoints, systemd-logind suspend inhibition during Linux inference, and improved ROCm hardware targeting on hybrid GPU systems.</p>
+      </description>
+    </release>
     <release version="10.9.0" date="2026-07-01">
       <description>
         <p>Adds Linux ARM64 packages, custom system prompts for omni models, OTLP telemetry subsystem, and vLLM Claude Code compatibility.</p>
