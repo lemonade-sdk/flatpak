@@ -43,7 +43,6 @@ cleanup:
 
 cleanup-commands:
   - install -d ${FLATPAK_DEST}/extensions/backends
-  - install -d ${FLATPAK_DEST}/extensions/backends/fastflowlm
 
 add-extensions:
   ai.lemonade_server.Lemonade.backends:
@@ -51,14 +50,6 @@ add-extensions:
     subdirectories: true
     no-autodownload: true
     autodelete: true
-  ai.lemonade_server.Lemonade.backends.fastflowlm:
-    versions: stable;beta
-    directory: extensions/backends/fastflowlm
-    bundle: false
-    no-autodownload: true
-    autodelete: true
-    download-if: have-kernel-module-amdxdna
-    enable-if: have-kernel-module-amdxdna
 
 modules:
   - modules/libdrm.json

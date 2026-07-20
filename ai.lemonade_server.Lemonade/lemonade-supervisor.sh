@@ -17,7 +17,7 @@ for d in /app/extensions/backends/*/; do
   d="${d%/}"
   [ -d "$d/bin" ] && export PATH="$d/bin:$PATH"
   [ -d "$d/lib" ] && export LD_LIBRARY_PATH="$d/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-  # a backend bundling the XRT runtime (e.g. FastFlowLM/NPU) ships lib/xrt
+  # a backend bundling the XRT runtime (e.g. RyzenAI/NPU) ships lib/xrt
   [ -e "$d/lib/xrt" ] && export XILINX_XRT="$d"
 done
 

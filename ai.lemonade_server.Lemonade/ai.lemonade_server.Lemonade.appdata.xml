@@ -14,7 +14,7 @@
       LLM server with a desktop chat client and a system-tray control.
     </p>
     <ul>
-      <li>llama.cpp, FastFlowLM, and RyzenAI inference backends</li>
+      <li>llama.cpp and RyzenAI inference backends</li>
       <li>Desktop chat interface and model manager</li>
       <li>Built-in HTTP API server, managed from the system tray</li>
     </ul>
