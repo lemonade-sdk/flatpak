@@ -47,6 +47,11 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="11.5.0" date="2026-07-22">
+      <description>
+        <p>Introduces the Lemonade Router and text classification endpoint, ModelScope model search, a server-side job engine, and stdio MCP client host integration.</p>
+      </description>
+    </release>
     <release version="11.0.0" date="2026-07-15">
       <description>
         <p>Introduces major new capabilities including 3D generation, Text-to-Speech, ModelScope support, alongside smart model routing and significant security and hardware enhancements.</p>
