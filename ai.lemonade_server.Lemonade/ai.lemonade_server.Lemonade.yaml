@@ -82,8 +82,7 @@ modules:
       - &lemonade-source
         type: git
         url: https://github.com/lemonade-sdk/lemonade.git
-        tag: v11.5.1
-        commit: fc4f2439a9225355a63c38cefd5fe16c23525cf7
+        branch: GUI3_merging
         disable-lfs: true
       - type: patch
         path: 0001-fix-app-store-settings-under-user-config-dir.patch
@@ -98,6 +97,7 @@ modules:
         NPM_CONFIG_CACHE: /run/build/lemonade-app/flatpak-node/npm-cache
         NPM_CONFIG_OFFLINE: "true"
         NPM_CONFIG_NODEDIR: /usr/lib/sdk/node24
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
     build-commands:
       - cd src/app && npm install --offline
       - cd src/app && npm run build:renderer:prod
