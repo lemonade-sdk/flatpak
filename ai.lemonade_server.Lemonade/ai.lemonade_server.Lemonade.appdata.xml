@@ -47,6 +47,11 @@
     <category>Utility</category>
   </categories>
   <releases>
+    <release version="11.7.0" date="2026-08-19">
+      <description>
+        <p>Adds model definition registration and per-model recipe options management endpoints, prefix-cache and router metrics reporting, support for Qwen3.8 and NVIDIA Nemotron 3.5 GGUF models, and various server stability and configuration fixes.</p>
+      </description>
+    </release>
     <release version="11.6.0" date="2026-08-14">
       <description>
         <p>Adds llama.cpp ROCm support for AMD MI100/MI200/MI210/MI250 GPUs, introduces an experimental ROCm image-generation backend for Anima and Krea-2 on AMD Strix Halo/Strix Point iGPUs, adds lemonade model alias commands, and adds opt-in vision benchmarks to lemonade bench.</p>
