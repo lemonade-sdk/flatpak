@@ -1,9 +1,8 @@
 name: Bump Upstream Lemonade
 
 on:
-  # Temporarily disabled as the workflow requires an app token to rewrite existing pull requests/branches.
-  #schedule:
-  #  - cron: '0 2 * * *' # Run daily at 2:00 AM UTC
+  schedule:
+    - cron: '0 2 * * *' # Run daily at 2:00 AM UTC
   workflow_dispatch:
     inputs:
       tag:
@@ -25,10 +24,26 @@ jobs:
         with:
           submodules: true
 
+      - name: Generate App Token
+        uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          app-id: ${{ vars.LEMONADE_ACTION_BOT_APP_CLIENT_ID }}
+          private-key: ${{ secrets.LEMONADE_ACTION_BOT_APP_PRIVATE_KEY }}
+
+      - name: Get GitHub App User ID
+        id: get-user-id
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          set -euo pipefail
+          USER_ID=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)
+          echo "user-id=$USER_ID" >> "$GITHUB_OUTPUT"
+
       - name: Configure Git User
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "${{ steps.app-token.outputs.app-slug }}[bot]"
+          git config --global user.email "${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
 
       - name: Run Bump and Source Generation
         id: bump
@@ -39,7 +54,7 @@ jobs:
         if: steps.bump.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
           branch: automation/bump-lemonade
           commit-message: "chore(deps): bump upstream lemonade to ${{ steps.bump.outputs.ref }}"
           title: "chore(deps): bump upstream lemonade to ${{ steps.bump.outputs.ref }}"
